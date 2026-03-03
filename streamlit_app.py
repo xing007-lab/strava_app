@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Backend URL
-API_URL = "http://localhost:8000"
+API_URL = "https://effective-space-giggle-jjpw99q9pxwvh5wjw-8000.app.github.dev"
 
 st.set_page_config(page_title="Strava Dashboard", layout="wide")
 
-st.title("🏃‍♂️ Strava Activity Dashboard")
+st.title("🏃‍♂️ Strava Activity Dashboard..")
 
 # -----------------------------
 # Load Data
@@ -38,8 +38,8 @@ if st.sidebar.button("🔄 Refresh Data"):
 try:
     athlete = load_athlete()
 except:
-    st.error("❌ Not connected to Strava. Please login first.")
-    st.markdown("Open: http://localhost:8000/login")
+    st.error("❌ Not connected to Strava. Please login first...")
+    st.markdown("Open: https://effective-space-giggle-jjpw99q9pxwvh5wjw-8000.app.github.dev/login")
     st.stop()
 
 # -----------------------------
