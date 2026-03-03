@@ -16,12 +16,24 @@ st.title("🏃‍♂️ Strava Activity Dashboard..")
 # -----------------------------
 @st.cache_data(ttl=60)
 def load_athlete():
-    return requests.get(f"{API_URL}/api/athlete").json()
+    try:
+        response = requests.get(f"{API_URL}/api/athlete")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Failed to load athlete: {e}")
+        return None
 
 
 @st.cache_data(ttl=60)
 def load_activities():
-    return requests.get(f"{API_URL}/api/activities?per_page=200").json()
+    try:
+        response = requests.get(f"{API_URL}/api/activities?per_page=200")
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Failed to load activities: {e}")
+        return None
 
 
 # -----------------------------
@@ -37,8 +49,12 @@ if st.sidebar.button("🔄 Refresh Data"):
 # -----------------------------
 try:
     athlete = load_athlete()
-except:
-    st.error("❌ Not connected to Strava. Please login first...")
+    if athlete is None:
+        st.error("❌ Not connected to Strava. Please login first.")
+        st.markdown("Open: https://effective-space-giggle-jjpw99q9pxwvh5wjw-8000.app.github.dev/login")
+        st.stop()
+except Exception as e:
+    st.error(f"❌ Error loading athlete: {e}")
     st.markdown("Open: https://effective-space-giggle-jjpw99q9pxwvh5wjw-8000.app.github.dev/login")
     st.stop()
 
@@ -64,6 +80,9 @@ with col3:
 st.subheader("🏃 Activities")
 
 activities = load_activities()
+if activities is None:
+    st.error("Failed to load activities")
+    st.stop()
 
 df = pd.DataFrame(activities)
 

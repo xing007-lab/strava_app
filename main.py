@@ -58,17 +58,29 @@ def get_client():
 
 @app.get("/api/athlete")
 def athlete():
-    client = get_client()
-    return client.get_athlete()
+    try:
+        client = get_client()
+        return client.get_athlete()
+    except Exception as e:
+        print(f"Error in /api/athlete: {e}")
+        raise HTTPException(500, f"Error fetching athlete: {str(e)}")
 
 
 @app.get("/api/activities")
 def activities(page: int = 1, per_page: int = 30):
-    client = get_client()
-    return client.get_activities(page, per_page)
+    try:
+        client = get_client()
+        return client.get_activities(page, per_page)
+    except Exception as e:
+        print(f"Error in /api/activities: {e}")
+        raise HTTPException(500, f"Error fetching activities: {str(e)}")
 
 
 @app.get("/api/activities/{activity_id}")
 def activity(activity_id: int):
-    client = get_client()
-    return client.get_activity(activity_id)
+    try:
+        client = get_client()
+        return client.get_activity(activity_id)
+    except Exception as e:
+        print(f"Error in /api/activities/{activity_id}: {e}")
+        raise HTTPException(500, f"Error fetching activity: {str(e)}")

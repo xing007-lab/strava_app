@@ -14,20 +14,26 @@ class StravaClient:
         }
 
     def get_athlete(self):
-        return requests.get(
+        response = requests.get(
             f"{BASE_URL}/athlete",
             headers=self._headers()
-        ).json()
+        )
+        response.raise_for_status()
+        return response.json()
 
     def get_activities(self, page=1, per_page=30):
-        return requests.get(
+        response = requests.get(
             f"{BASE_URL}/athlete/activities",
             headers=self._headers(),
             params={"page": page, "per_page": per_page}
-        ).json()
+        )
+        response.raise_for_status()
+        return response.json()
 
     def get_activity(self, activity_id: int):
-        return requests.get(
+        response = requests.get(
             f"{BASE_URL}/activities/{activity_id}",
             headers=self._headers()
-        ).json()
+        )
+        response.raise_for_status()
+        return response.json()
